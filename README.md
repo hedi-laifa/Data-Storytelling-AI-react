@@ -95,23 +95,7 @@ npm run dev
 6. **Recommendations:** Review high-priority strategic actions and click "Take Action" to log your decisions.
 7. **AI Chat:** Ask direct ad-hoc questions about your dataset.
 
----
-
-## 📄 License
-This project is open-source and available under the [MIT License](LICENSE).
-
----
-*Built with ❤️ for data enthusiasts everywhere.*
-
----
-
-## 📞 Contact & Support
-
-- **GitHub Issues:** [Report bugs or request features](https://github.com/hedi-laifa/Data-Storytelling-AI/issues)
-- **Documentation:** [Full guides](docs/)
-- **Examples:** [Sample code](example_pipeline.py)
-
----
+--
 
 ## ⭐ Star History
 
@@ -132,7 +116,6 @@ Built with:
 
 <div align="center">
   
-**Made with ❤️ for automated data storytelling**
 
 [⬆ Back to Top](#-data-storytelling-ai)
 
