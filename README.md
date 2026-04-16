@@ -95,7 +95,20 @@ npm run dev
 6. **Recommendations:** Review high-priority strategic actions and click "Take Action" to log your decisions.
 7. **AI Chat:** Ask direct ad-hoc questions about your dataset.
 
---
+---
+
+## 📄 License
+This project is open-source and available under the [MIT License](LICENSE).
+
+---
+
+## 📞 Contact & Support
+
+- **GitHub Issues:** [Report bugs or request features](https://github.com/hedi-laifa/Data-Storytelling-AI/issues)
+- **Documentation:** [Full guides](docs/)
+- **Examples:** [Sample code](example_pipeline.py)
+
+---
 
 ## ⭐ Star History
 
@@ -106,11 +119,12 @@ If you find this project useful, please consider giving it a star! ⭐
 ## 🙏 Acknowledgments
 
 Built with:
-- **[OpenAI GPT](https://openai.com)** - AI narrative generation
-- **[Streamlit](https://streamlit.io)** - Web interface framework
-- **[Pandas](https://pandas.pydata.org)** - Data manipulation
-- **[Plotly](https://plotly.com)** - Interactive visualizations
-- **[scikit-learn](https://scikit-learn.org)** - Machine learning tools
+- **[React](https://react.dev/) & [Vite](https://vitejs.dev/)** - Frontend framework and tooling
+- **[Tailwind CSS](https://tailwindcss.com/)** - UI styling and design system
+- **[FastAPI](https://fastapi.tiangolo.com/)** - Backend API framework
+- **[LangChain](https://python.langchain.com/) & [Groq](https://groq.com/)** - Orchestration and high-speed LLM inference (Llama 3.3)
+- **[Pandas](https://pandas.pydata.org)** - Data processing and manipulation
+- **[Plotly](https://plotly.com)** - Interactive data visualizations
 
 ---
 
