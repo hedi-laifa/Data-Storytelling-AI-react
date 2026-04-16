@@ -1,0 +1,11 @@
+temp.log
+node_modules/
+.venv/
+.venv_new/
+__pycache__/
+*.pyc
+.env
+.DS_Store
+dist/
+build/
+backend/data_base.db
