@@ -1,29 +1,48 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { LogIn, Mail, Lock, User, UserPlus } from 'lucide-react';
+import { LogIn, Mail, Lock, User, UserPlus, Eye, EyeOff } from 'lucide-react';
 import { useAppContext } from '../context/AppContext';
+import { login as loginApi, register as registerApi } from '../api';
 
 export default function LoginPage() {
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
-  const { setIsAuthenticated } = useAppContext();
+  const { setIsAuthenticated, setUser } = useAppContext();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Simulate Authentication / Registration
-    if (isLogin) {
-      console.log('Logging in with:', email);
-    } else {
-      console.log('Creating account for:', name, email, 'with role: User (Standard)');
-      // Simulating user creation with default "User" role not "Admin"
+    try {
+      let userData;
+      if (isLogin) {
+        // Authenticate using the backend API
+        const response = await loginApi({ email, password });
+        console.log('Logging in successful for:', email);
+        localStorage.setItem("token", response.access_token);
+        userData = { id: response.user_id, name: response.name, email: email };
+      } else {
+        // Register using the backend API
+        const response = await registerApi({ name, email, password });
+        console.log('Account created and logged in for:', email);
+        localStorage.setItem("token", response.access_token);
+        userData = { id: response.user_id, name: response.name, email: email };
+      }
+      
+      // Save user to context and local storage
+      localStorage.setItem("user", JSON.stringify(userData));
+      setUser(userData);
+      
+      // Set authenticated state and redirect
+      setIsAuthenticated(true);
+      navigate('/');
+    } catch (error) {
+      console.error("Authentication failed:", error);
+      alert(error.response?.data?.detail || "Authentication Failed. Please check your credentials.");
+      // Do NOT set authenticated state to true if it fails.
     }
-    
-    // Set authenticated state and redirect
-    setIsAuthenticated(true);
-    navigate('/');
   };
 
   return (
@@ -86,13 +105,26 @@ export default function LoginPage() {
                 <Lock className="h-5 w-5 text-slate-400" />
               </div>
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="block w-full pl-10 pr-3 py-3 border border-slate-300 dark:border-slate-700 rounded-xl bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-shadow"
+                className="block w-full pl-10 pr-10 py-3 border border-slate-300 dark:border-slate-700 rounded-xl bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-shadow"
                 placeholder="••••••••"
                 required
               />
+              <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="text-slate-400 hover:text-slate-500 focus:outline-none"
+                >
+                  {showPassword ? (
+                    <EyeOff className="h-5 w-5" />
+                  ) : (
+                    <Eye className="h-5 w-5" />
+                  )}
+                </button>
+              </div>
             </div>
           </div>
           

@@ -10,6 +10,7 @@ import RecommendationsPage from './pages/RecommendationsPage';
 import StorytellingReportPage from './pages/StorytellingReportPage';
 import SettingsPage from './pages/SettingsPage';
 import LoginPage from './pages/LoginPage';
+import HistoryPage from './pages/HistoryPage';
 import { AppProvider, useAppContext } from './context/AppContext';
 
 function AppContent() {
@@ -36,6 +37,7 @@ function AppContent() {
             <Route path="/chat" element={<ChatPage />} />
             <Route path="/recommendations" element={<RecommendationsPage />} />
             <Route path="/report" element={<StorytellingReportPage />} />
+            <Route path="/history" element={<HistoryPage />} />
             <Route path="/settings" element={<SettingsPage />} />
           </Routes>
         </main>

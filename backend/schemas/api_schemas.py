@@ -44,3 +44,13 @@ class ChatRequest(BaseModel):
 class ChatResponse(BaseModel):
     answer: str
     chart: Optional[ChartConfig] = None
+# --- History ---
+
+class DownloadHistoryResponse(BaseModel):
+    id: int
+    user_id: str
+    dataset_id: str
+    dataset_name: str
+    downloaded_at: str
+    has_report: bool = False
+    report_json: Optional[str] = None

@@ -8,7 +8,11 @@ export const AppProvider = ({ children }) => {
   const [charts, setCharts] = useState([]);
   const [report, setReport] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('token'));
+  const [user, setUser] = useState(() => {
+    const savedUser = localStorage.getItem('user');
+    return savedUser ? JSON.parse(savedUser) : null;
+  });
 
   return (
     <AppContext.Provider value={{
@@ -17,7 +21,8 @@ export const AppProvider = ({ children }) => {
       charts, setCharts,
       report, setReport,
       isLoading, setIsLoading,
-      isAuthenticated, setIsAuthenticated
+      isAuthenticated, setIsAuthenticated,
+      user, setUser
     }}>
       {children}
     </AppContext.Provider>

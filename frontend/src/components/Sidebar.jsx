@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, Database, BarChart3, Bot, Sparkles, FileText, Settings, PanelLeftClose, Layers, LogOut } from 'lucide-react';
+import { LayoutDashboard, Database, BarChart3, Bot, Sparkles, FileText, Settings, PanelLeftClose, Layers, LogOut, History } from 'lucide-react';
 import { useAppContext } from '../context/AppContext';
 
 const navItems = [
@@ -10,6 +10,7 @@ const navItems = [
   { name: 'AI Chat', icon: Bot, path: '/chat' },
   { name: 'Recommendations', icon: Sparkles, path: '/recommendations' },
   { name: 'Storytelling Report', icon: FileText, path: '/report' },
+  { name: 'Download History', icon: History, path: '/history' },
 ];
 
 export default function Sidebar() {
@@ -18,6 +19,8 @@ export default function Sidebar() {
 
   const handleLogout = (e) => {
     e.preventDefault();
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
     setIsAuthenticated(false);
     navigate('/');
   };

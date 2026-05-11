@@ -90,7 +90,7 @@ export default function Dashboard() {
 
   if (!datasetId) {
     return (
-      <div className="flex flex-col items-center justify-center p-12 text-center bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800">
+      <div className="mt-20 flex flex-col items-center justify-center p-12 text-center bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800">
         <Sparkles className="w-12 h-12 text-slate-400 mb-4" />
         <h2 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-2">No Dataset Loaded</h2>
         <p className="text-slate-500 dark:text-slate-400 max-w-md">
@@ -111,7 +111,7 @@ export default function Dashboard() {
     : "The dataset shows consistent growth with minor seasonality spikes in Q3.";
 
   return (
-    <div className="max-w-7xl mx-auto space-y-8 pb-12">
+    <div className="max-w-7xl mx-auto space-y-8 pb-12 mt-20">
       
       {/* Header */}
       <div>
