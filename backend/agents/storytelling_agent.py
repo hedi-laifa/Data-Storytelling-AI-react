@@ -3,7 +3,7 @@ from loguru import logger
 import pandas as pd
 from pydantic import ValidationError
 from langchain_openai import ChatOpenAI
-from langchain_core.prompts import PromptTemplate
+from langchain_experimental.agents.agent_toolkits import create_pandas_dataframe_agent
 from utils.config import settings
 
 def generate_storytelling_report(df: pd.DataFrame) -> dict:
@@ -12,30 +12,33 @@ def generate_storytelling_report(df: pd.DataFrame) -> dict:
             model="llama-3.3-70b-versatile",
             temperature=0.7,
             api_key=settings.XAI_API_KEY,
-            base_url="https://api.groq.com/openai/v1",
-            model_kwargs={"response_format": {"type": "json_object"}}
+            base_url="https://api.groq.com/openai/v1"
         )
 
-        # Generate a descriptive summary of the dataframe
-        df_desc = df.describe(include='all').to_string()
-        df_head = df.head(3).to_string()
-        df_info = f"Columns: {list(df.columns)}\nRows: {df.shape[0]}"
+        # Pre-compute dataset statistics instantly in Python
+        df_head = df.head().to_string()
+        df_summary = df.describe(include='all').to_string()
+        df_info = f"Rows: {df.shape[0]}, Columns: {df.shape[1]}"
+        
+        prompt = f"""You are an expert data analyst and business strategist.
+Here is the context about a dataset I am analyzing:
 
-        prompt = PromptTemplate(
-            input_variables=["df_info", "df_head", "df_desc"],
-            template="""You are an expert data analyst and business strategist.
-Analyze the following dataset context and provide a deeply detailed storytelling report.
+Dataset Info: {df_info}
 
-Dataset Info:
-{df_info}
-
-Sample Data:
+First 5 Rows:
 {df_head}
 
 Statistical Summary:
-{df_desc}
+{df_summary}
 
-You must return your response in purely valid JSON format matching exactly this structure:
+Based ONLY on the provided dataset statistics, find:
+1. Overall executive summary
+2. Key insights (4-5 items with concrete numbers)
+3. Trends (4-5 items spanning across variables)
+4. Anomalies or outliers (4-5 items)
+5. Actionable business recommendations (4-5 items directly actionable based on the data)
+
+Your final answer MUST be strictly valid JSON, mapping exactly to this structure (do not include markdown block markers around the JSON, just the JSON object itself):
 {{
   "executive_summary": "Make it a detailed 3-5 sentence paragraph summarizing the overall dataset health and main takeaway.",
   "key_insights": ["Insight 1 with concrete numbers", "Insight 2", ...],
@@ -43,19 +46,18 @@ You must return your response in purely valid JSON format matching exactly this 
   "anomalies": ["Anomaly 1 or outlier noticed in max/min values", ...],
   "business_recommendations": ["Recommendation 1 directly actionable based on the data", "Recommendation 2", ...]
 }}
-
-Ensure arrays have at least 4-5 items each to give a detailed report.
 """
-        )
 
-        chain = prompt | llm
-        result = chain.invoke({
-            "df_info": df_info,
-            "df_head": df_head,
-            "df_desc": df_desc
-        })
-
+        # A single, fast LLM call
+        result = llm.invoke(prompt)
         content = result.content
+        
+        # Clean up markdown if present
+        if "```json" in content:
+            content = content.split("```json")[1].split("```")[0].strip()
+        elif "```" in content:
+            content = content.split("```")[1].split("```")[0].strip()
+        
         report_dict = json.loads(content)
         return report_dict
 

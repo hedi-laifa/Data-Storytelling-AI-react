@@ -4,8 +4,8 @@ from typing import List
 
 from schemas.api_schemas import ChartConfig, StorytellingReport
 from services.session_manager import get_dataset
-from services.chart_service import generate_charts
-from services.storytelling_service import generate_storytelling_report
+from agents.chart_agent import generate_charts
+from agents.storytelling_agent import generate_storytelling_report
 from utils.security import get_current_user
 from database import get_db_connection
 import json

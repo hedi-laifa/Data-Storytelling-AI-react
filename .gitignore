@@ -9,3 +9,6 @@ __pycache__/
 dist/
 build/
 backend/data_base.db
+
+backend/history.db
+token.json

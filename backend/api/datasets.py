@@ -9,7 +9,7 @@ from database import get_db_connection
 
 from schemas.api_schemas import UploadResponse, DatasetSummary
 from services.session_manager import save_dataset, get_dataset, reset_all_sessions
-from services.data_service import clean_dataset
+from agents.data_cleaning_agent import clean_dataset
 
 router = APIRouter()
 
